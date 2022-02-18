@@ -30,24 +30,31 @@ this may result in some mismatch is trying to build on a windows or linux machin
         - if you are seeing unrelated errors, try another env through vscode 
         - https://techinscribed.com/python-virtual-environment-in-vscode/ in case you get stuck
     - `pip install [your library here]`
-    https://mnzel.medium.com/how-to-activate-python-venv-on-a-mac-a8fa1c3cb511
+
+- Environment is activated and libraries are install, you can hit play in the upper right hand corner with the dorah.py open.  This will run your dorah.py
+    - pay attention to the output in the terminal below, this will give you a url to see you locally hosted app running!
 
 - References:
     - https://medium.com/@jtpaasch/the-right-way-to-use-virtual-environments-1bc255a0cba7
     - https://opensource.com/article/20/4/pyenv
     - https://www.macworld.co.uk/how-to/python-coding-mac-3635912/
     - https://code.visualstudio.com/docs/python/environments
+    - https://mnzel.medium.com/how-to-activate-python-venv-on-a-mac-a8fa1c3cb511
 
 
 # Let's add a Flag and make sure it is initalized
 - For reference
     - You will be using the python SDK: https://docs.launchdarkly.com/sdk/server-side/python
 - Open dorah.py
+    - stop the code if it is still running (ctrl + C)
     - You will find a few comments 
         - inline comments are denoted in python with a "#"
         - Multiline comments are denoted with a """ at the beginning and end
     - These will have the string `STEP #: [Instructions]` with some context on what is going on
     - This will let you know what lines to uncomment, and what the python code is doing to interact with Launchdarkly
+    - let's run the code again once you have added LaunchDarkly back into the mix, keep an eye on the terminal to verify implimenenation!
+- YOU HAVE GATHERED A FLAG!!
+    - congratulations, now it is up to you to find some funcationality to turn on and off, maybe change where a link takes you based on a flag???
 
 
 # Advanced Topics
