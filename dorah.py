@@ -9,8 +9,12 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import ldclient
-from ldclient.config import Config
+"""
+STEP 1: The following two lines are imports within python. They manage the Python SDK referenced in the README and allow this app to connect to LD
+UNCOMMENT LINES 14 and 15 before proceeding.  You may need to look at the Pythond SDK Page in order find the correct import command
+"""
+# import ldclient
+# from ldclient.config import Config
 import os
 
 
@@ -21,10 +25,12 @@ tips = sns.load_dataset('tips')
 #mttr = sns.load_dataset('mttr')
 
 # Set sdk_key to your LaunchDarkly SDK key before running
-sdk_key = "sdk-5ceac771-58d1-47c3-af81-b07acea6fe10"
-
-# Set feature_flag_key to the feature flag key you want to evaluate
-feature_flag_key = "test-flag-dev"
+"""
+STEP 2: This is the key that will authenticate with your Launch Darkly Environment, lets the LaunchDarkly know where to look when the application reaches out to us.
+An SDK key is environment specific. In this case I am looking at the test environment of the cgreen environment in support service
+UNCOMMENT LINES 28 before proceeding
+"""
+sdk_key = "sdk-7084b95b-76c3-4353-95ed-fd75ba818bbc"
 
 
 #form for entry page
@@ -181,20 +187,42 @@ def calculator():
         return render_template('data_calc_grid.html', date = date_as_string, user = user,form = form)
 
 if __name__ == '__main__':
-    ldclient.set_config(Config(sdk_key))
-    # The SDK starts up the first time ldclient.get() is called
-    if ldclient.get().is_initialized():
-        print("SDK successfully initialized!")
-    else:
-        print("SDK failed to initialize")
+
+    """
+    STEP 3: We are going to use the code from the import in step 1, in order to configure LaunchDarkly.
+    UNCOMMENT lines 194-201 to see the configuration for our environemnt passed.  We then check if our SDK was successfully initalized
+    """
+    # ldclient.set_config(Config(sdk_key))
+    # # The SDK starts up the first time ldclient.get() is called
+    # if ldclient.get().is_initialized():
+    #     print("SDK successfully initialized!")
+    # else:
+    #     print("SDK failed to initialize")
+    #client = ldclient.get()
+
+    """
+    STEP 4: Let's evaluate a flag, first we need an example
+    UNCOMMENT line 207 to reference a flag in this test environment
+    """
+    #feature_flag_key = "csm-dora-demo-test"
+
+    """
+    STEP 5: We need to pass a user for sever side variatons, in this case we will just pass a key, the only required field
+    UNCOMMENT line 213 to create a user object
+    """
+    #user = {"key": "user@test.com"}
+
+    """
+    STEP 6: Let's evaluate a flag!! We are going to do two things:
+        - First pass the user, flag key, and our default evaluation (just in case something goes wrong) to the client we created
+        - Then we are going to use an if statement to tell us if the flag matches what is currently in support service
+    """
     
-    client = ldclient.get()
-    
-    show_feature = client.variation(feature_flag_key, {"key": "user@test.com"}, False)
-    if show_feature:
-        print("The Flag is on")
-    else:
-        print("The Flag is off")
+    # show_feature = client.variation(feature_flag_key, user, False)
+    # if show_feature:
+    #     print("The Flag is on")
+    # else:
+    #     print("The Flag is off")
 
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
 

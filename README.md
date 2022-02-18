@@ -6,10 +6,7 @@ this may result in some mismatch is trying to build on a windows or linux machin
 
 
 # CS Demo TODO
-- Push changes to if statement
 - add comments to the python process
-- think about what can other
-- source venv/bin/activate
 
 
 
@@ -46,9 +43,13 @@ this may result in some mismatch is trying to build on a windows or linux machin
     - https://code.visualstudio.com/docs/python/environments
 
 
-# Adding a Flag
-- Backend
+# Let's Add A Flag and make sure it is initalized
+- Backend for reference
     - You will be using the python SDK: https://docs.launchdarkly.com/sdk/server-side/python
+- Open dorah.py
+    - You will find a few comments (denoted in python with a "#")
+    - These will have the string `STEP #: Instructions`
+    - This will let you know what lines to uncomment, and what the python code is doing to interact with Launchdarkly
 
 
 # Advanced Topics
