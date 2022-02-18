@@ -3,6 +3,7 @@ from datetime import datetime
 from flask_bootstrap import Bootstrap
 from forms import LoginForm
 from flask_wtf import FlaskForm
+from config import Config
 from wtforms import SubmitField, SelectField, StringField, BooleanField, IntegerField, DecimalField
 from wtforms.validators import InputRequired
 import seaborn as sns
@@ -15,6 +16,7 @@ UNCOMMENT LINES 14 and 15 before proceeding.  You may need to look at the Python
 """
 # import ldclient
 # from ldclient.config import Config
+import config
 import os
 
 
@@ -28,9 +30,9 @@ tips = sns.load_dataset('tips')
 """
 STEP 2: This is the key that will authenticate with your Launch Darkly Environment, lets the LaunchDarkly know where to look when the application reaches out to us.
 An SDK key is environment specific. In this case I am looking at the test environment of the cgreen environment in support service
-UNCOMMENT LINES 28 before proceeding
+UNCOMMENT LINES 33 before proceeding
 """
-sdk_key = "sdk-7084b95b-76c3-4353-95ed-fd75ba818bbc"
+#sdk_key = "sdk-7084b95b-76c3-4353-95ed-fd75ba818bbc"
 
 
 #form for entry page
