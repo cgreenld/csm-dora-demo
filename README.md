@@ -5,11 +5,6 @@ Demo for the for csm's and others to simulate the customer experience.  This ass
 this may result in some mismatch is trying to build on a windows or linux machine.* 
 
 
-# CS Demo TODO
-- add comments to the python process
-
-
-
 # Access Needed
 - You will need launchDarkly github access and the ability to pull down the local repo
     - https://github.com/launchdarkly/cs-dora-demo is the link
@@ -22,7 +17,6 @@ this may result in some mismatch is trying to build on a windows or linux machin
 - Python Installed
 
 
-
 # Running the code
 - You will want an up to date python experience, depending on your OS this can vary the following is a gernal template.  See references for more info
     - Install python 3 (I am using python 3.10 to set this up first)
@@ -30,9 +24,11 @@ this may result in some mismatch is trying to build on a windows or linux machin
     - validate by running `python --version` and you should see a python 3 version out put
 - once you have python set up, you will want to create a "virtual environemtn" this is like a folder you python code can run in
     - cd into the doraProject folder
-    - `pyvenv venv`
+    - `python -m venv venv `
     - `source venv/bin/activate`
-        - at this point you should see something like "python 3.10.1 ('venv':venv) in the lower left hand side of your screen 
+        - at this point you should see something like "python 3.10.1 ('venv':venv) in the lower left hand side of your screen
+        - if you are seeing unrelated errors, try another env through vscode 
+        - https://techinscribed.com/python-virtual-environment-in-vscode/ in case you get stuck
     - `pip install [your library here]`
     https://mnzel.medium.com/how-to-activate-python-venv-on-a-mac-a8fa1c3cb511
 
@@ -43,12 +39,14 @@ this may result in some mismatch is trying to build on a windows or linux machin
     - https://code.visualstudio.com/docs/python/environments
 
 
-# Let's Add A Flag and make sure it is initalized
-- Backend for reference
+# Let's add a Flag and make sure it is initalized
+- For reference
     - You will be using the python SDK: https://docs.launchdarkly.com/sdk/server-side/python
 - Open dorah.py
-    - You will find a few comments (denoted in python with a "#")
-    - These will have the string `STEP #: Instructions`
+    - You will find a few comments 
+        - inline comments are denoted in python with a "#"
+        - Multiline comments are denoted with a """ at the beginning and end
+    - These will have the string `STEP #: [Instructions]` with some context on what is going on
     - This will let you know what lines to uncomment, and what the python code is doing to interact with Launchdarkly
 
 
