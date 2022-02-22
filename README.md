@@ -13,6 +13,7 @@ this may result in some mismatch is trying to build on a windows/linux machine o
 
 
 # Access Needed
+- If you are on mac, make sure you have access to git.  Else run `xcode-select --install`
 - You will need launchDarkly github access and the ability to pull down the local repo
     - https://github.com/cgreenld/csm-dora-demo is the link
     - SSO access to github is required through Okta
