@@ -30,9 +30,9 @@ tips = sns.load_dataset('tips')
 """
 STEP 2: This is the key that will authenticate with your Launch Darkly Environment, lets the LaunchDarkly know where to look when the application reaches out to us.
 An SDK key is environment specific. In this case I am looking at the `cgreen` environment in support service
-UNCOMMENT line 35 before proceeding
+UNCOMMENT line 35 and add your own SDK before proceeding
 """
-#sdk_key = "sdk-7084b95b-76c3-4353-95ed-fd75ba818bbc"
+#sdk_key = ""
 
 
 #form for entry page
@@ -203,7 +203,7 @@ if __name__ == '__main__':
     #client = ldclient.get()
 
     """
-    STEP 4: Let's evaluate a flag, first we need an example
+    STEP 4: Let's evaluate a flag, first we need an example. If a flag with this key isn't already in your environemnt you will need to create one
     UNCOMMENT line 209 to reference a flag in this test environment
     """
     #feature_flag_key = "csm-dora-demo-test"
