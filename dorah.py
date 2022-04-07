@@ -1,3 +1,4 @@
+import uuid
 from flask import render_template, Flask, flash, redirect
 from datetime import datetime 
 from flask_bootstrap import Bootstrap
@@ -14,8 +15,8 @@ import matplotlib.pyplot as plt
 STEP 1: The following two lines are imports within python. They manage the Python SDK referenced in the README and allow this app to connect to LD
 UNCOMMENT lines 17 and 18 before proceeding.  You may need to look at the Pythond SDK Page in order find the correct import command
 """
-# import ldclient
-# from ldclient.config import Config
+import ldclient
+from ldclient.config import Config
 import config
 import os
 
@@ -32,7 +33,27 @@ STEP 2: This is the key that will authenticate with your Launch Darkly Environme
 An SDK key is environment specific. In this case I am looking at the `cgreen` environment in support service
 UNCOMMENT line 35 and add your own SDK before proceeding
 """
-#sdk_key = ""
+
+
+ldclient.set_config(Config(sdk_key=sdk_key1))
+# The SDK starts up the first time ldclient.get() is called
+if ldclient.get().is_initialized():
+    print("SDK 1 successfully initialized!")
+else:
+    print("SDK 1 failed to initialize")
+client1 = ldclient.get()
+
+
+feature_flag_key = "claim-toggle"
+
+user = {"key": uuid.uuid1}
+
+show_feature = client1.variation(feature_flag_key, user, False)
+if show_feature:
+    print("The Dev flag is on")
+else:
+    print("The dev Flag is off")
+
 
 
 #form for entry page
@@ -93,27 +114,49 @@ def login():
 
 @app.route('/')
 def index():
-    user = {'username': 'Greg'}
     return render_template('index.html', date = date_as_string, user = user)
 
 
+if (show_feature == "panel"):
+    @app.route('/claims', methods = ['GET', 'POST'])
+    def entry():
+        form = entry_form()
+        ldclient.get().track(event_name='Claim-Metric', user=user,metric_value=.3)
+        if form.validate_on_submit():
+            metric = form.metric.data
+            value = form.value.data
+            return render_template('entry_results.html', 
+                            date = date_as_string, user = user,form = form, metric = metric, value = value)
+        else: 
+            return render_template('data_entry.html', date = date_as_string, user = user, form = form)
 
-@app.route('/entry', methods = ['GET', 'POST'])
-def entry():
-    user = {'username': 'Greg'}
-    form = entry_form()
+if (show_feature == "hamburger"):
+    @app.route('/claims', methods = ['GET', 'POST'])
+    def entry():
+        ldclient.get().track(event_name='Claim-Metric', user=user,metric_value=.1)
+        form = entry_form()
+        print("sent event")
+        if form.validate_on_submit():
+            metric = form.metric.data
+            value = form.value.data
+            return render_template('entry_results.html', 
+                            date = date_as_string, user = user,form = form, metric = metric, value = value)
+        else: 
+            return render_template('data_entry.html', date = date_as_string, user = user, form = form)
 
-    if form.validate_on_submit():
-        metric = form.metric.data
-        value = form.value.data
-
-
-        return render_template('entry_results.html', 
-                           date = date_as_string, user = user,form = form, metric = metric, value = value)
-
-    else: 
-
-        return render_template('data_entry.html', date = date_as_string, user = user, form = form)
+if (show_feature == "control"):
+    @app.route('/claims', methods = ['GET', 'POST'])
+    def entry():
+        form = entry_form()
+        print("sent event")
+        ldclient.get().track(event_name='Claim-Metric', user=user,metric_value=.2)
+        if form.validate_on_submit():
+            metric = form.metric.data
+            value = form.value.data
+            return render_template('entry_results.html', 
+                            date = date_as_string, user = user,form = form, metric = metric, value = value)
+        else: 
+            return render_template('data_entry.html', date = date_as_string, user = user, form = form)
 
 
 @app.route('/visualize', methods = ['GET', 'POST'])
@@ -194,25 +237,16 @@ if __name__ == '__main__':
     STEP 3: We are going to use the code from the import in step 1, in order to configure LaunchDarkly.
     UNCOMMENT lines 197-203 to see the configuration for our environemnt passed.  We then check if our SDK was successfully initalized
     """
-    # ldclient.set_config(Config(sdk_key))
-    # # The SDK starts up the first time ldclient.get() is called
-    # if ldclient.get().is_initialized():
-    #     print("SDK successfully initialized!")
-    # else:
-    #     print("SDK failed to initialize")
-    #client = ldclient.get()
 
     """
     STEP 4: Let's evaluate a flag, first we need an example. If a flag with this key isn't already in your environemnt you will need to create one
     UNCOMMENT line 209 to reference a flag in this test environment
     """
-    #feature_flag_key = "csm-dora-demo-test"
 
     """
     STEP 5: We need to pass a user for sever side variatons, in this case we will just pass a key, the only required field.  Other information can be added to this object: https://docs.launchdarkly.com/home/users/attributes
     UNCOMMENT line 215 to create a user object
     """
-    #user = {"key": "user@test.com"}
 
     """
     STEP 6: Let's evaluate a flag!! We are going to do two things:
@@ -220,12 +254,6 @@ if __name__ == '__main__':
         - Then we are going to use an if statement to tell us if the flag matches what is currently in support service
         UNCOMMENT lines 224-228
     """
-    
-    # show_feature = client.variation(feature_flag_key, user, False)
-    # if show_feature:
-    #     print("The Flag is on")
-    # else:
-    #     print("The Flag is off")
 
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
 
